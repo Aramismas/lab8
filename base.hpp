@@ -4,6 +4,7 @@
 #include <string>
 #include "iterator.hpp"
 #include "visitor.hpp"
+class Iterator; 
 
 class Base {
     public:

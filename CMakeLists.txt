@@ -1,4 +1,4 @@
-MAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 ADD_SUBDIRECTORY(googletest)
 
@@ -15,7 +15,7 @@ ADD_EXECUTABLE(test
    preorder_iterator.cpp
    binary_iterator.cpp
    visitor.cpp 
-   unit_test.cpp
+   test.cpp
     
 )
 

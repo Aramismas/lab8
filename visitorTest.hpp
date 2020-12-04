@@ -36,7 +36,7 @@ TEST(IteratorTest, PowPreorderTest) {
         Base* num2 = new Op(4);
         Pow* temp = new Pow(num1, num2);
         Base* dummy = new Add(temp, num2);
-        Iterator *it = new preorderIterator(dummy);
+        Iterator *it = new PreorderIterator(dummy);
         CountVisitor *visit = new CountVisitor();
         it->first();
         while(!it->is_done()) {
@@ -72,7 +72,7 @@ TEST(IteratorTest, MultPreorderTest) {
         Base* num2 = new Op(4);
         Mult* temp = new Mult(num1, num2);
         Base* dummy = new Sub(temp, num2);
-        Iterator *it = new preorderIterator(dummy);
+        Iterator *it = new PreorderIterator(dummy);
         CountVisitor *visit = new CountVisitor();
         it->first(); 
         while(!it->is_done()) {
@@ -108,7 +108,7 @@ TEST(IteratorTest, DivPreorderTest) {
         Base* num2 = new Op(4);
         Div* temp = new Div(num1, num2);
         Base* dummy = new Add(temp, num2);
-        Iterator *it = new preorderIterator(dummy);
+        Iterator *it = new PreorderIterator(dummy);
         CountVisitor *visit = new CountVisitor();
         it->first(); 
         while(!it->is_done()) {
@@ -144,7 +144,7 @@ TEST(IteratorTest, AddPreorderTest) {
         Base* num2 = new Op(4);
         Add* temp = new Add(num1, num2);
         Base* dummy = new Mult(temp, num2);
-        Iterator *it = new preorderIterator(dummy);
+        Iterator *it = new PreorderIterator(dummy);
         CountVisitor *visit = new CountVisitor();
         it->first(); 
         while(!it->is_done()) {
@@ -180,7 +180,7 @@ TEST(IteratorTest, SubPreorderTest) {
         Base* num2 = new Op(4);
         Sub* temp = new Sub(num1, num2);
         Base* dummy = new Mult(temp, num2);
-        Iterator *it = new preorderIterator(dummy);
+        Iterator *it = new PreorderIterator(dummy);
         CountVisitor *visit = new CountVisitor();
         it->first(); 
         while(!it->is_done()) {
