@@ -53,10 +53,10 @@ TEST(IteratorTest, MultBinaryTest) {
         Base* num1 = new Op(3);
         Base* num2 = new Op(4);
         Mult* temp = new Mult(num1, num2);
-        Base* dummy = new Sub(temp, num2);
+        Base* dummy = new Add(temp, num2);
         Iterator *it = dummy->create_iterator();
-        CountVisitor *visit = new CountVisitor();
-        it->first();
+	CountVisitor *visit = new CountVisitor();
+	it->first();
         while(!it->is_done()) {
                 Base* phase = it->current();
                 phase->accept(visit);
@@ -64,25 +64,25 @@ TEST(IteratorTest, MultBinaryTest) {
         }
         EXPECT_EQ(visit->op_count(), 1);
         EXPECT_EQ(visit->mult_count(), 1);
-        EXPECT_EQ(visit->sub_count(), 0);
+        EXPECT_EQ(visit->add_count(), 0);
 }
 
 TEST(IteratorTest, MultPreorderTest) {
         Base* num1 = new Op(3);
         Base* num2 = new Op(4);
         Mult* temp = new Mult(num1, num2);
-        Base* dummy = new Sub(temp, num2);
+        Base* dummy = new Add(temp, num2);
         Iterator *it = new PreorderIterator(dummy);
         CountVisitor *visit = new CountVisitor();
         it->first(); 
         while(!it->is_done()) {
                 Base* phase = it->current();
                 phase->accept(visit);
-                it->next();
+		it->next();
         }
         EXPECT_EQ(visit->op_count(), 3);
         EXPECT_EQ(visit->mult_count(), 1);
-        EXPECT_EQ(visit->sub_count(), 0);
+        EXPECT_EQ(visit->add_count(), 0);
 }
 
 TEST(IteratorTest, DivBinaryTest) {

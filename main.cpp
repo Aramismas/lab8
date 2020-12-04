@@ -7,6 +7,7 @@
 #include "rand.h"
 #include "iterator.hpp"
 #include "visitor.hpp"
+#include <iostream>
 
 int main()
 {
@@ -14,7 +15,7 @@ int main()
 
 	Base* num1 = new Op(3);
 	Base* num2 = new Op(4);
-	Pow* temp = new Pow(num1, num2);
+	Mult* temp = new Mult(num1, num2);
 	Base* dummy = new Add(temp, num2);
 	Iterator *it = dummy->create_iterator();
 	CountVisitor *visit = new CountVisitor();
@@ -24,6 +25,6 @@ int main()
 		phase->accept(visit);
 		it->next();
 	}
+	std::cout << "Mult Count: " << visit->mult_count() << " OP Count: " << visit->op_count() << std::endl;
 return 0; 
 }
-
