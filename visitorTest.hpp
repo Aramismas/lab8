@@ -13,7 +13,7 @@
 #include "iterator.hpp"
 #include "visitor.hpp"
 
-TEST(VisitorTest, PowBinaryTest) {
+TEST(IteratorTest, PowBinaryTest) {
 	Base* num1 = new Op(3);
 	Base* num2 = new Op(4);
 	Pow* temp = new Pow(num1, num2);
@@ -26,12 +26,30 @@ TEST(VisitorTest, PowBinaryTest) {
 		phase->accept(visit);
 		it->next();
 	}
-	EXPECT_EQ(visit->op_count(), 2);
+	EXPECT_EQ(visit->op_count(), 1);
 	EXPECT_EQ(visit->pow_count(), 1);
 	EXPECT_EQ(visit->add_count(), 0);
 }
 
-TEST(VisitorTest, MultBinaryTest) {
+TEST(IteratorTest, PowPreorderTest) {
+        Base* num1 = new Op(3);
+        Base* num2 = new Op(4);
+        Pow* temp = new Pow(num1, num2);
+        Base* dummy = new Add(temp, num2);
+        Iterator *it = new preorderIterator(dummy);
+        CountVisitor *visit = new CountVisitor();
+        it->first();
+        while(!it->is_done()) {
+                Base* phase = it->current();
+                phase->accept(visit);
+                it->next();
+        }
+        EXPECT_EQ(visit->op_count(), 3);
+        EXPECT_EQ(visit->pow_count(), 1);
+        EXPECT_EQ(visit->add_count(), 0);
+}
+
+TEST(IteratorTest, MultBinaryTest) {
         Base* num1 = new Op(3);
         Base* num2 = new Op(4);
         Mult* temp = new Mult(num1, num2);
@@ -44,12 +62,30 @@ TEST(VisitorTest, MultBinaryTest) {
                 phase->accept(visit);
                 it->next();
         }
-        EXPECT_EQ(visit->op_count(), 2);
+        EXPECT_EQ(visit->op_count(), 1);
         EXPECT_EQ(visit->mult_count(), 1);
         EXPECT_EQ(visit->sub_count(), 0);
 }
 
-TEST(VisitorTest, DivBinaryTest) {
+TEST(IteratorTest, MultPreorderTest) {
+        Base* num1 = new Op(3);
+        Base* num2 = new Op(4);
+        Mult* temp = new Mult(num1, num2);
+        Base* dummy = new Sub(temp, num2);
+        Iterator *it = new preorderIterator(dummy);
+        CountVisitor *visit = new CountVisitor();
+        it->first(); 
+        while(!it->is_done()) {
+                Base* phase = it->current();
+                phase->accept(visit);
+                it->next();
+        }
+        EXPECT_EQ(visit->op_count(), 3);
+        EXPECT_EQ(visit->mult_count(), 1);
+        EXPECT_EQ(visit->sub_count(), 0);
+}
+
+TEST(IteratorTest, DivBinaryTest) {
         Base* num1 = new Op(3);
         Base* num2 = new Op(4);
         Div* temp = new Div(num1, num2);
@@ -62,12 +98,30 @@ TEST(VisitorTest, DivBinaryTest) {
                 phase->accept(visit);
                 it->next();
         }
-        EXPECT_EQ(visit->op_count(), 2);
+        EXPECT_EQ(visit->op_count(), 1);
         EXPECT_EQ(visit->div_count(), 1);
         EXPECT_EQ(visit->add_count(), 0);
 }
 
-TEST(VisitorTest, AddBinaryTest) {
+TEST(IteratorTest, DivPreorderTest) {
+        Base* num1 = new Op(3);
+        Base* num2 = new Op(4);
+        Div* temp = new Div(num1, num2);
+        Base* dummy = new Add(temp, num2);
+        Iterator *it = new preorderIterator(dummy);
+        CountVisitor *visit = new CountVisitor();
+        it->first(); 
+        while(!it->is_done()) {
+                Base* phase = it->current();
+                phase->accept(visit);
+                it->next();
+        }
+        EXPECT_EQ(visit->op_count(), 3);
+        EXPECT_EQ(visit->div_count(), 1);
+        EXPECT_EQ(visit->add_count(), 0);
+}
+
+TEST(IteratorTest, AddBinaryTest) {
         Base* num1 = new Op(3);
         Base* num2 = new Op(4);
         Add* temp = new Add(num1, num2);
@@ -80,12 +134,30 @@ TEST(VisitorTest, AddBinaryTest) {
                 phase->accept(visit);
                 it->next();
         }
-        EXPECT_EQ(visit->op_count(), 2);
+        EXPECT_EQ(visit->op_count(), 1);
         EXPECT_EQ(visit->add_count(), 1);
         EXPECT_EQ(visit->mult_count(), 0);
 }
 
-TEST(VisitorTest, SubBinaryTest) {
+TEST(IteratorTest, AddPreorderTest) {
+        Base* num1 = new Op(3);
+        Base* num2 = new Op(4);
+        Add* temp = new Add(num1, num2);
+        Base* dummy = new Mult(temp, num2);
+        Iterator *it = new preorderIterator(dummy);
+        CountVisitor *visit = new CountVisitor();
+        it->first(); 
+        while(!it->is_done()) {
+                Base* phase = it->current();
+                phase->accept(visit);
+                it->next();
+        }
+        EXPECT_EQ(visit->op_count(), 3);
+        EXPECT_EQ(visit->add_count(), 1);
+        EXPECT_EQ(visit->mult_count(), 0);
+}
+
+TEST(IteratorTest, SubBinaryTest) {
         Base* num1 = new Op(3);
         Base* num2 = new Op(4);
         Sub* temp = new Sub(num1, num2);
@@ -98,12 +170,30 @@ TEST(VisitorTest, SubBinaryTest) {
                 phase->accept(visit);
                 it->next();
         }
-        EXPECT_EQ(visit->op_count(), 2);
+        EXPECT_EQ(visit->op_count(), 1);
         EXPECT_EQ(visit->sub_count(), 1);
         EXPECT_EQ(visit->mult_count(), 0);
 }
 
-TEST(VisitorTest, AddRandBinaryTest) {
+TEST(IteratorTest, SubPreorderTest) {
+        Base* num1 = new Op(3);
+        Base* num2 = new Op(4);
+        Sub* temp = new Sub(num1, num2);
+        Base* dummy = new Mult(temp, num2);
+        Iterator *it = new preorderIterator(dummy);
+        CountVisitor *visit = new CountVisitor();
+        it->first(); 
+        while(!it->is_done()) {
+                Base* phase = it->current();
+                phase->accept(visit);
+                it->next();
+        }
+        EXPECT_EQ(visit->op_count(), 3);
+        EXPECT_EQ(visit->sub_count(), 1);
+        EXPECT_EQ(visit->mult_count(), 0);
+}
+
+TEST(IteratorTest, AddRandBinaryTest) {
         Base* num1 = new Rand();
         Base* num2 = new Rand();
         Add* temp = new Add(num1, num2);
@@ -116,7 +206,25 @@ TEST(VisitorTest, AddRandBinaryTest) {
                 phase->accept(visit);
                 it->next();
         }
-        EXPECT_EQ(visit->rand_count(), 2);
+        EXPECT_EQ(visit->rand_count(), 1);
+        EXPECT_EQ(visit->add_count(), 1);
+        EXPECT_EQ(visit->mult_count(), 0);
+}
+
+TEST(IteratorTest, AddRandPreorderTest) {
+        Base* num1 = new Rand();
+        Base* num2 = new Rand();
+        Add* temp = new Add(num1, num2);
+        Base* dummy = new Mult(temp, num2);
+        Iterator *it = new PreorderIterator(dummy);
+        CountVisitor *visit = new CountVisitor();
+        it->first();
+        while(!it->is_done()) {
+                Base* phase = it->current();
+                phase->accept(visit);
+                it->next();
+        }
+        EXPECT_EQ(visit->rand_count(), 3);
         EXPECT_EQ(visit->add_count(), 1);
         EXPECT_EQ(visit->mult_count(), 0);
 }
